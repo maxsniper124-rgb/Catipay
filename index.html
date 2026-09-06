@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BTW Token Presale - TON Blockchain">
+    <meta name="theme-color" content="#0a0e27">
+    <title>BTW Token Presale | TON Blockchain</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/gh/ton-connect/sdk@3/dist/index.js"></script>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background">
+        <div class="gradient-bg"></div>
+        <div class="particles-container" id="particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">BTW Presale</span>
+            </div>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link">Home</a>
+                <a href="#presale" class="nav-link">Presale</a>
+                <a href="#tokenomics" class="nav-link">Tokenomics</a>
+                <a href="#roadmap" class="nav-link">Roadmap</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">BTW Token</span>
+                <br>
+                <span class="glow-text">Presale</span>
+            </h1>
+            <p class="hero-subtitle">The future of TON blockchain starts here</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="heroStatValue1">50</div>
+                    <div class="stat-label">TON = 6M BTW</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="heroStatValue2">100M</div>
+                    <div class="stat-label">Total Supply</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="heroStatValue3">Live</div>
+                    <div class="stat-label">Status</div>
+                </div>
+            </div>
+            <button class="cta-button" onclick="document.getElementById('presale').scrollIntoView({ behavior: 'smooth' })">
+                Join Presale
+                <span class="button-arrow">→</span>
+            </button>
+        </div>
+        <div class="hero-glow"></div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section">
+        <div class="countdown-container">
+            <h2>Presale Ends In</h2>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Presale Section -->
+    <section id="presale" class="presale-section">
+        <div class="presale-container">
+            <h2 class="section-title">Presale Card</h2>
+            
+            <div class="presale-content">
+                <!-- Presale Card -->
+                <div class="presale-card glass-effect">
+                    <div class="card-header">
+                        <h3>Buy BTW Tokens</h3>
+                        <span class="card-badge">Official Presale</span>
+                    </div>
+
+                    <!-- Presale Stats -->
+                    <div class="presale-stats">
+                        <div class="stat-row">
+                            <span class="stat-title">Tokens Sold</span>
+                            <span class="stat-value-large" id="tokensSold">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-title">Buyers</span>
+                            <span class="stat-value-large" id="buyersCount">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-title">Funding Goal</span>
+                            <span class="stat-value-large" id="fundingGoal">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>Progress</span>
+                            <span class="progress-percent" id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>0</span>
+                            <span id="progressMax">50M</span>
+                        </div>
+                    </div>
+
+                    <!-- Input Form -->
+                    <div class="buy-form">
+                        <div class="form-group">
+                            <label for="tonInput" class="form-label">Amount to Send (TON)</label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="number" 
+                                    id="tonInput" 
+                                    class="form-input" 
+                                    placeholder="0.00" 
+                                    min="0" 
+                                    step="0.01"
+                                    onchange="calculateBTW()"
+                                    oninput="calculateBTW()"
+                                >
+                                <span class="input-symbol">TON</span>
+                            </div>
+                        </div>
+
+                        <div class="conversion-display">
+                            <div class="exchange-rate">
+                                <span class="rate-label">Exchange Rate</span>
+                                <span class="rate-value">50 TON = 6,000,000 BTW</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="btwOutput" class="form-label">You Receive</label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="btwOutput" 
+                                    class="form-input" 
+                                    placeholder="0.00" 
+                                    readonly
+                                >
+                                <span class="input-symbol">BTW</span>
+                            </div>
+                        </div>
+
+                        <div class="form-info">
+                            <div class="info-row">
+                                <span class="info-label">Network</span>
+                                <span class="info-value">TON Blockchain</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Wallet Status</span>
+                                <span class="info-value" id="walletStatus">Not Connected</span>
+                            </div>
+                        </div>
+
+                        <!-- Wallet Connection Button -->
+                        <button 
+                            id="connectWalletBtn" 
+                            class="buy-button connect-button"
+                            onclick="connectWallet()"
+                        >
+                            <span class="button-icon">🔗</span>
+                            Connect Wallet
+                        </button>
+
+                        <!-- Buy Button -->
+                        <button 
+                            id="buyButton" 
+                            class="buy-button buy-button-disabled"
+                            onclick="buyTokens()"
+                            disabled
+                        >
+                            <span class="button-icon">⚡</span>
+                            <span id="buyButtonText">Connect Wallet to Buy</span>
+                            <span class="button-loader" id="buttonLoader"></span>
+                        </button>
+
+                        <div class="button-info">
+                            <span id="buttonInfo">Please connect your TON wallet</span>
+                        </div>
+                    </div>
+
+                    <!-- Supported Wallets -->
+                    <div class="wallets-info">
+                        <p class="wallets-title">Supported Wallets</p>
+                        <div class="wallets-grid">
+                            <div class="wallet-badge">Tonkeeper</div>
+                            <div class="wallet-badge">Telegram Wallet</div>
+                            <div class="wallet-badge">OpenMask</div>
+                            <div class="wallet-badge">MyTonWallet</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="info-cards">
+                    <div class="info-card glass-effect">
+                        <div class="card-icon">📊</div>
+                        <h4>Total Supply</h4>
+                        <p class="card-value">100,000,000 BTW</p>
+                        <p class="card-desc">Fixed supply with no inflation</p>
+                    </div>
+                    <div class="info-card glass-effect">
+                        <div class="card-icon">⚙️</div>
+                        <h4>Presale Amount</h4>
+                        <p class="card-value">50,000,000 BTW</p>
+                        <p class="card-desc">50% of total supply</p>
+                    </div>
+                    <div class="info-card glass-effect">
+                        <div class="card-icon">💰</div>
+                        <h4>Funding Goal</h4>
+                        <p class="card-value">833.33 TON</p>
+                        <p class="card-desc">Hardcap for presale round</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="tokenomics-section">
+        <div class="tokenomics-container">
+            <h2 class="section-title">Tokenomics</h2>
+            <div class="tokenomics-grid">
+                <div class="tokenomics-card glass-effect">
+                    <div class="tokenomics-icon">💧</div>
+                    <h4>Liquidity</h4>
+                    <p class="tokenomics-percent">20%</p>
+                    <p class="tokenomics-amount">20,000,000 BTW</p>
+                </div>
+                <div class="tokenomics-card glass-effect">
+                    <div class="tokenomics-icon">📢</div>
+                    <h4>Marketing</h4>
+                    <p class="tokenomics-percent">15%</p>
+                    <p class="tokenomics-amount">15,000,000 BTW</p>
+                </div>
+                <div class="tokenomics-card glass-effect">
+                    <div class="tokenomics-icon">👥</div>
+                    <h4>Community</h4>
+                    <p class="tokenomics-percent">10%</p>
+                    <p class="tokenomics-amount">10,000,000 BTW</p>
+                </div>
+                <div class="tokenomics-card glass-effect">
+                    <div class="tokenomics-icon">🚀</div>
+                    <h4>Presale</h4>
+                    <p class="tokenomics-percent">50%</p>
+                    <p class="tokenomics-amount">50,000,000 BTW</p>
+                </div>
+                <div class="tokenomics-card glass-effect">
+                    <div class="tokenomics-icon">👔</div>
+                    <h4>Team</h4>
+                    <p class="tokenomics-percent">3%</p>
+                    <p class="tokenomics-amount">3,000,000 BTW</p>
+                </div>
+                <div class="tokenomics-card glass-effect">
+                    <div class="tokenomics-icon">🏦</div>
+                    <h4>Reserve</h4>
+                    <p class="tokenomics-percent">2%</p>
+                    <p class="tokenomics-amount">2,000,000 BTW</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap-section">
+        <div class="roadmap-container">
+            <h2 class="section-title">Roadmap</h2>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">
+                        <span class="marker-circle"></span>
+                    </div>
+                    <div class="roadmap-content glass-effect">
+                        <h4>Phase 1 - Foundation</h4>
+                        <p>Token smart contract deployment, Initial presale launch, Community building</p>
+                        <span class="phase-date">Q4 2024</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">
+                        <span class="marker-circle"></span>
+                    </div>
+                    <div class="roadmap-content glass-effect">
+                        <h4>Phase 2 - Exchange Listing</h4>
+                        <p>DEX listing on DeDust, CEX partnerships, Liquidity pool creation</p>
+                        <span class="phase-date">Q1 2025</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">
+                        <span class="marker-circle"></span>
+                    </div>
+                    <div class="roadmap-content glass-effect">
+                        <h4>Phase 3 - Ecosystem</h4>
+                        <p>dApp development, Staking mechanism, Community governance</p>
+                        <span class="phase-date">Q2 2025</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">
+                        <span class="marker-circle last"></span>
+                    </div>
+                    <div class="roadmap-content glass-effect">
+                        <h4>Phase 4 - Growth</h4>
+                        <p>Cross-chain bridges, Global expansion, Enterprise partnerships</p>
+                        <span class="phase-date">Q3 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="faq-container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What is BTW Token?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>BTW Token is a next-generation cryptocurrency built on the TON blockchain, designed to provide fast, secure, and scalable transactions for the future of decentralized finance.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I buy BTW tokens?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Simply connect your TON wallet using one of our supported wallets (Tonkeeper, Telegram Wallet, OpenMask, or MyTonWallet), enter the amount of TON you wish to spend, and click the Buy button. The transaction will be processed instantly.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What wallets are supported?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We support all wallets compatible with TON Connect, including Tonkeeper, Telegram Wallet, OpenMask, and MyTonWallet. Any wallet that supports the TON Connect standard will work.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What is the exchange rate?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The presale exchange rate is fixed at 50 TON = 6,000,000 BTW tokens. This rate is guaranteed throughout the presale period.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>When is the presale ending?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The presale countdown is displayed at the top of this page. The presale will end when the timer reaches zero or when the hardcap of 833.33 TON is reached, whichever comes first.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Are there any vesting periods?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Presale participants will receive their BTW tokens immediately upon successful transaction confirmation. No vesting period applies to presale purchases.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is this audit-checked?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, the BTW smart contract has undergone professional security audit. Details are available in our documentation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What happens after presale?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>After the presale concludes, BTW tokens will be listed on decentralized exchanges (DEX) like DeDust. Participants can then trade or hold their tokens on the open market.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BTW Presale</h4>
+                    <p>The next generation token on TON blockchain</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#presale">Presale</a></li>
+                        <li><a href="#tokenomics">Tokenomics</a></li>
+                        <li><a href="#roadmap">Roadmap</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <p>Join our growing community on social media</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BTW Token. All rights reserved.</p>
+                <p>Built on <span class="ton-brand">TON Blockchain</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Success Modal -->
+    <div id="successModal" class="modal glass-effect">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✅ Transaction Successful!</h2>
+                <button class="modal-close" onclick="closeModal('successModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="success-message" id="successMessage">Your BTW tokens have been purchased successfully.</p>
+                <div class="transaction-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Transaction Hash:</span>
+                        <span class="detail-value" id="txHash">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">BTW Received:</span>
+                        <span class="detail-value" id="btwReceived">-</span>
+                    </div>
+                </div>
+                <button class="modal-button" onclick="closeModal('successModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal glass-effect">
+        <div class="modal-content error">
+            <div class="modal-header">
+                <h2>❌ Transaction Failed</h2>
+                <button class="modal-close" onclick="closeModal('errorModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="error-message" id="errorMessage">An error occurred during the transaction.</p>
+                <button class="modal-button" onclick="closeModal('errorModal')">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal loading-modal glass-effect">
+        <div class="modal-content loading">
+            <div class="spinner"></div>
+            <p id="loadingText">Processing your transaction...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
